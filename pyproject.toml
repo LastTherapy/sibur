@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "vabus-service"
+version = "0.1.0"
+description = "Service for sending data from VaBus to external storage"
+authors = ["Your Name <your.email@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+aiohttp = "^3.7.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
