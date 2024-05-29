@@ -1,5 +1,5 @@
 # VaBus Data Handler
-
+[README на русском](README_RUS.md)
 ## Description
 
 VaBus Data Handler is designed to fetch events from the VaBus data bus, aggregate them based on specified functions and time intervals, and send the aggregated events to an external storage system, either Kafka or PostgreSQL. Additionally, the service collects and sends its own metrics to the VaBus for monitoring purposes.
