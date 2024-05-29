@@ -1,8 +1,8 @@
-# Event Aggregator Service
+# VaBus Data Handler
 
 ## Description
 
-Event Aggregator Service is designed to fetch events from the VaBus data bus, aggregate them based on specified functions and time intervals, and send the aggregated events to an external storage system, either Kafka or PostgreSQL. Additionally, the service collects and sends its own metrics to the VaBus for monitoring purposes.
+VaBus Data Handler is designed to fetch events from the VaBus data bus, aggregate them based on specified functions and time intervals, and send the aggregated events to an external storage system, either Kafka or PostgreSQL. Additionally, the service collects and sends its own metrics to the VaBus for monitoring purposes.
 
 ## Features
 
@@ -16,8 +16,8 @@ Event Aggregator Service is designed to fetch events from the VaBus data bus, ag
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/yourusername/event-aggregator-service.git
-    cd event-aggregator-service
+    git clone git@github.com:LastTherapy/sibur.git
+    cd sibur
     ```
 
 2. Install dependencies using Poetry:
@@ -90,4 +90,3 @@ To build and run the Event Aggregator Service using Docker, follow these steps:
     ```
 
 This command runs the container in the background with the necessary environment variables.
-
