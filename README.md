@@ -1,61 +1,93 @@
-# VaBus Service
+# Event Aggregator Service
 
-## Описание
+## Description
 
-Сервис для отправки данных из шины данных VaBus во внешнее хранилище (Kafka или Postgres).
+Event Aggregator Service is designed to fetch events from the VaBus data bus, aggregate them based on specified functions and time intervals, and send the aggregated events to an external storage system, either Kafka or PostgreSQL. Additionally, the service collects and sends its own metrics to the VaBus for monitoring purposes.
 
-## Установка
+## Features
 
-1. Клонируйте репозиторий.
-2. Установите зависимости с помощью Poetry:
+- Fetch events from VaBus.
+- Aggregate events by name, function (specified in the event), and time interval (specified in the service environment variables).
+- Send aggregated events to external storage (Kafka or PostgreSQL) based on environment configuration.
+- Collect and send service metrics to VaBus for monitoring.
 
-    curl -sSL https://install.python-poetry.org | python3 -
+## Installation
 
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/yourusername/event-aggregator-service.git
+    cd event-aggregator-service
+    ```
+
+2. Install dependencies using Poetry:
 
     ```bash
     poetry install
     ```
 
-## Запуск
+## Usage
 
-1. Установите переменные окружения:
+1. Set up the necessary environment variables:
+
     ```bash
-    export VA_BUS_URL="http://vabus-url"
-    export AGGREGATION_INTERVAL=60
-    export STORAGE_TYPE="kafka"  # или "postgres"
+    export STORAGE_TYPE="kafka" # or "postgres"
+    export KAFKA_BOOTSTRAP_SERVERS="your_kafka_bootstrap_servers"
+    export KAFKA_TOPIC="your_kafka_topic"
+    export POSTGRES_CONNECTION_STRING="your_postgres_connection_string"
+    export AGGREGATION_INTERVAL="60" # Aggregation interval in seconds
+    export VABUS_URL="your_vabus_url"
+    export DEFAULT_VABUS_URL="http://localhost:8000"
     ```
-2. Запустите сервис:
+
+2. Run the service:
+
     ```bash
     poetry run python main.py
     ```
 
-## Docker
+## Configuration
 
-1. Сборка Docker образа:
+The service can be configured using the following environment variables:
+
+- `STORAGE_TYPE`: Specifies the storage type for aggregated events (`kafka` or `postgres`).
+- `KAFKA_BOOTSTRAP_SERVERS`: Comma-separated list of Kafka bootstrap servers.
+- `KAFKA_TOPIC`: Kafka topic for sending aggregated events.
+- `POSTGRES_CONNECTION_STRING`: PostgreSQL connection string.
+- `AGGREGATION_INTERVAL`: Time interval (in seconds) for aggregating events.
+- `VABUS_URL`: URL of the VaBus data bus.
+- `DEFAULT_VABUS_URL`: Default URL for VaBus if `VABUS_URL` is not specified.
+
+## Metrics
+
+The service collects and sends the following metrics to VaBus:
+
+- `aggregated_events_count`: Number of aggregated events sent to storage.
+- `failed_events_count`: Number of events that failed to be processed.
+- `processing_time`: Time taken to process and aggregate events.
+
+## Using Docker
+
+To build and run the Event Aggregator Service using Docker, follow these steps:
+
+1. **Build the Docker image**:
+
     ```bash
-    docker build -t vabus-service .
+    docker build -t vabus-data-handler .
     ```
-2. Запуск Docker контейнера:
+
+2. **Run the Docker container**:
+
     ```bash
-    docker run -e VA_BUS_URL="http://vabus-url" -e AGGREGATION_INTERVAL=60 -e STORAGE_TYPE="kafka" vabus-service
+    docker run -d --name vabus_data_handler \
+      -e STORAGE_TYPE="kafka" \
+      -e KAFKA_BOOTSTRAP_SERVERS="your_kafka_bootstrap_servers" \
+      -e KAFKA_TOPIC="your_kafka_topic" \
+      -e POSTGRES_CONNECTION_STRING="your_postgres_connection_string" \
+      -e AGGREGATION_INTERVAL="60" \
+      -e VABUS_URL="your_vabus_url" \
+      vabus-data-handler
     ```
 
-## Возможные проблемы и пути решения
+This command runs the container in the background with the necessary environment variables.
 
-### Проблемы
-
-1. Потеря данных при сбоях в сети.
-2. Недоступность шины данных VaBus.
-3. Ошибки при отправке данных в Kafka или Postgres.
-
-### Пути решения
-
-1. Реализовать механизм повторных попыток при сбоях.
-2. Внедрить логирование и мониторинг состояния сервиса.
-3. Обеспечить резервное копирование данных перед отправкой.
-
-## Потенциальное развитие сервиса
-
-1. Добавление поддержки других типов хранилищ данных.
-2. Оптимизация агрегации данных для повышения производительности.
-3. Расширение метрик мониторинга для более детального анализа работы сервиса.

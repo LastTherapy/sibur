@@ -1,13 +1,17 @@
 [tool.poetry]
-name = "vabus-service"
+name = "vabusdatahandler"
 version = "0.1.0"
-description = "Service for sending data from VaBus to external storage"
-authors = ["Your Name <your.email@example.com>"]
+description = "A service for aggregating events and sending them to external storage"
+authors = ["LastTherapy <random1250@gmail.com>"]
+license = "MIT"
+readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-aiohttp = "^3.7.4"
+python = "^3.10"
+aiohttp = "^3.8"
+aiokafka = "^0.7"
+asyncpg = "^0.24"
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
+requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
